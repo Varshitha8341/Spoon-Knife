@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building the application...'
+                sh './gradlew assemble' // Ensure Gradle wrapper is executable
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+                sh './gradlew test' // Runs the tests in the repository
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Build and tests completed successfully.'
+        }
+        failure {
+            echo 'Build or tests failed. Please review the logs.'
+        }
+    }
+}
